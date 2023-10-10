@@ -6,33 +6,39 @@ const typeDefs = gql`
     username: String
   }
   type Tweet {
-    id: ID
-    text: String
+    id: ID!
+    text: String!
     author: User
   }
-  # Everything under Query is requestable by the user
   type Query {
     allTweets: [Tweet]
     tweet(id: ID): Tweet
-    ping: String!
   }
   type Mutation {
     postTweet(text: String, userId: ID): Tweet
     deleteTweet(id: ID): Boolean
   }
 `;
+const tweets = [
+  {
+    id: 1,
+    text: "Hello World",
+  },
+  {
+    id: 2,
+    text: "Bye World",
+  },
+];
 
 const resolvers = {
   Query: {
-    tweet() {
-      console.log("called!!");
-      return null;
-    },
-    ping() {
-      return "pong";
+    allTweets: () => tweets,
+    tweet(root, { id }) {
+      return tweets.find((tweet) => tweet.id === Number(id));
     },
   },
 };
+
 const server = new ApolloServer({ typeDefs, resolvers });
 
 server.listen().then(({ url }) => {
