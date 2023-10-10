@@ -10,9 +10,14 @@ const typeDefs = gql`
     text: String
     author: User
   }
+  # Everything under Query is requestable by the user
   type Query {
     allTweets: [Tweet]
     tweet(id: ID): Tweet
+  }
+  type Mutation {
+    postTweet(text: String, userId: ID): Tweet
+    deleteTweet(id: ID): Boolean
   }
 `;
 
