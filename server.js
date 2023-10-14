@@ -27,12 +27,17 @@ let users = [
 ];
 
 const typeDefs = gql`
+  """
+  A user Doc
+  """
   type User {
     id: ID!
     firstName: String!
     lastName: String!
+
     fullName: String!
   }
+
   type Tweet {
     id: ID!
     text: String!
@@ -75,6 +80,7 @@ const resolvers = {
       tweets.push(newTweet);
       return newTweet;
     },
+
     deleteTweet(_, { id }) {
       const tweet = tweets.find((tweet) => tweet.id === id);
       if (!tweet) return false;
