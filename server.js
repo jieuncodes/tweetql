@@ -64,6 +64,9 @@ const resolvers = {
   },
   Mutation: {
     postTweet(_, { text, userId }) {
+      const userExists = users.some((user) => user.id === userId);
+      if (!userExists) throw new Error(`User doesn't exist`);
+
       const newTweet = {
         id: tweets.length + 1,
         text,
